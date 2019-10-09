@@ -1,1 +1,1 @@
-include ':app', ':core', ':featurecontacts', ':featureperson', ':corenetwork'
+include ':app', ':core', ':featurecontacts', ':featureperson', ':corenetwork', ':corerepository'

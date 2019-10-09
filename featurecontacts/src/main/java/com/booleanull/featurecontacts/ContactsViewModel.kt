@@ -6,33 +6,23 @@ import androidx.lifecycle.ViewModel
 import com.booleanull.core.data.Address
 import com.booleanull.core.data.Company
 import com.booleanull.core.data.Contact
+import com.booleanull.corerepository.ContactRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ContactsViewModel @Inject constructor() : ViewModel() {
+class ContactsViewModel @Inject constructor(val contactRepository: ContactRepository) : ViewModel() {
 
     private val contactsList = MutableLiveData<List<Contact>>()
 
     init {
-        setContactList(
-            listOf(
-                Contact(0, "Leanne Graham", "Bret", "Sincere@april.biz", Address("Kulas Light", "Apt. 556", "Gwenborough", "92998-3874", null), "1-770-736-8031 x56442", "hildegard.org", Company("Romaguera-Crona", "Multi-layered client-server neural-net", "harness real-time e-markets")),
-                Contact(1, "1dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(2, "2dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(3, "3dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(4, "4dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(5, "5dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(6, "6dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(7, "7dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(9, "8dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(8, "9dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(10, "10dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(11, "11dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(12, "12dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(13, "13dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(14, "14dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-                Contact(15, "15dsa", "dsa", "dsa", null, "dsa", "dsada", null)
-            )
-        )
+        GlobalScope.launch(Dispatchers.Main) {
+            contactsList.value = withContext(Dispatchers.IO) {
+                contactRepository.getContacts().await()
+            }
+        }
     }
 
     fun getContacts(): LiveData<List<Contact>> = contactsList
