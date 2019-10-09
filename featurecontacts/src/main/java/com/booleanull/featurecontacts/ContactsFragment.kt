@@ -1,6 +1,7 @@
 package com.booleanull.featurecontacts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +19,14 @@ import com.booleanull.featurecontacts.di.DaggerContactsComponent
 import com.booleanull.featurecontacts.utils.ContactsSorter
 import com.booleanull.featurecontacts.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.fragment_contacts.*
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 class ContactsFragment : Fragment() {
+
+    @Inject
+    lateinit var cicerone: Cicerone<Router>
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -52,28 +58,6 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val contacts = listOf(
-            Contact(0, "ds0000000a", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(1, "1dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(2, "2dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(3, "3dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(4, "4dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(5, "5dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(6, "6dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(7, "7dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(9, "8dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(8, "9dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(10, "10dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(11, "11dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(12, "12dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(13, "13dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(14, "14dsa", "dsa", "dsa", null, "dsa", "dsada", null),
-            Contact(15, "15dsa", "dsa", "dsa", null, "dsa", "dsada", null)
-        )
-
-        if (savedInstanceState == null)
-            viewModel.setContactList(contacts)
-
         initListeners()
         initObservers()
         initAdapter()
@@ -86,7 +70,7 @@ class ContactsFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        contactsAdapter = ContactsAdapter()
+        contactsAdapter = ContactsAdapter(cicerone)
         recycler.setHasFixedSize(true)
         recycler.addItemDecoration(
             RecyclerDivider(

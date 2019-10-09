@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.booleanull.core.data.Contact
 import kotlinx.android.synthetic.main.view_contact.view.*
+import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.Router
 
 
-class ContactsAdapter :
+class ContactsAdapter(private val cicerone: Cicerone<Router>) :
     RecyclerView.Adapter<ContactsAdapter.ContactsHolder>() {
 
     var contacts = listOf<Contact>()
@@ -34,6 +36,10 @@ class ContactsAdapter :
             with(itemView) {
                 tv_name.text = contact.name
                 tv_email.text = contact.email
+
+                layout_item.setOnClickListener {
+                    cicerone.router.navigateTo(ContactsScreens.PersonScreen(contact))
+                }
             }
         }
     }
