@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#F0F0F0</color>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#002984</color>
     <color name="colorAccent">#008577</color>
-    <color name="colorGray">#BBBBBB</color>
+    <color name="colorGray">#DDDDDD</color>
 
     <dimen name="padding_small">8dp</dimen>
 </resources>

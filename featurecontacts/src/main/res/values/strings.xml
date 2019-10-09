@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">feature-contacts</string>
+    <string name="sort_ascending">Sort Ascending</string>
+    <string name="sort_descending">Sort Descending</string>
 </resources>
