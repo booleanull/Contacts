@@ -1,6 +1,8 @@
 package com.booleanull.contacts
 
 import androidx.fragment.app.Fragment
+import com.booleanull.featurecontacts.ContactsFragment
+import com.booleanull.featureperson.PersonFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 sealed class Screens {
