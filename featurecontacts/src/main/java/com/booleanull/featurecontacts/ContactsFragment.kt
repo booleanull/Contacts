@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -66,6 +67,21 @@ class ContactsFragment : Fragment() {
     private fun initObservers() {
         viewModel.getContacts().observe(this, Observer {
             updateContacts(it)
+        })
+
+        viewModel.getLoading().observe(this, Observer {
+            if(it) {
+                view_loading.visibility = View.VISIBLE
+            } else {
+                view_loading.visibility = View.GONE
+            }
+        })
+
+        viewModel.getError().observe(this, Observer {
+            if(it) {
+                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show()
+                viewModel.setError(false)
+            }
         })
     }
 

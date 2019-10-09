@@ -15,25 +15,25 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    @Singleton
+    @RepositoryScope
     @Provides
     fun getGson(): Gson {
         return GsonBuilder().setLenient().create()
     }
 
-    @Singleton
+    @RepositoryScope
     @Provides
     fun getGsonConvertFactory(): GsonConverterFactory {
         return GsonConverterFactory.create(GsonBuilder().setLenient().create())
     }
 
-    @Singleton
+    @RepositoryScope
     @Provides
     fun getCoroutineCallAdapterFactory(): CoroutineCallAdapterFactory {
         return CoroutineCallAdapterFactory()
     }
 
-    @Singleton
+    @RepositoryScope
     @Provides
     fun getRetrofit(
         gsonConverterFactory: GsonConverterFactory,
