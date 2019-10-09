@@ -1,25 +1,44 @@
 package com.booleanull.featurecontacts
 
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.booleanull.core.data.Contact
+import com.booleanull.core.di.AppInjectHelper
+import com.booleanull.core.di.ViewModelFactory
+import com.booleanull.core.di.injectViewModel
+import com.booleanull.featurecontacts.di.DaggerContactsComponent
 import com.booleanull.featurecontacts.utils.ContactsSorter
 import com.booleanull.featurecontacts.utils.RecyclerDivider
 import kotlinx.android.synthetic.main.fragment_contacts.*
+import javax.inject.Inject
 
 class ContactsFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: ContactsViewModel
 
     private lateinit var contactsAdapter: ContactsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+
+        DaggerContactsComponent
+            .builder()
+            .appComponent(AppInjectHelper.provideAppComponent(context!!.applicationContext))
+            .build()
+            .inject(this)
+
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     override fun onCreateView(
@@ -32,20 +51,6 @@ class ContactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        toolbar.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.sort_ascending -> {
-                    updateContacts(ContactsSorter.sortListAscending(contactsAdapter.contacts.toMutableList()))
-                    true
-                }
-                R.id.sort_descending -> {
-                    updateContacts(ContactsSorter.sortListDescending(contactsAdapter.contacts.toMutableList()))
-                    true
-                }
-                else -> false
-            }
-        }
 
         val contacts = listOf(
             Contact(0, "ds0000000a", "dsa", "dsa", null, "dsa", "dsada", null),
@@ -66,6 +71,21 @@ class ContactsFragment : Fragment() {
             Contact(15, "15dsa", "dsa", "dsa", null, "dsa", "dsada", null)
         )
 
+        if (savedInstanceState == null)
+            viewModel.setContactList(contacts)
+
+        initListeners()
+        initObservers()
+        initAdapter()
+    }
+
+    private fun initObservers() {
+        viewModel.getContacts().observe(this, Observer {
+            updateContacts(it)
+        })
+    }
+
+    private fun initAdapter() {
         contactsAdapter = ContactsAdapter()
         recycler.setHasFixedSize(true)
         recycler.addItemDecoration(
@@ -78,11 +98,27 @@ class ContactsFragment : Fragment() {
         )
         recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recycler.adapter = contactsAdapter
-        updateContacts(contacts)
+    }
+
+    private fun initListeners() {
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.sort_ascending -> {
+                    viewModel.setContactList(ContactsSorter.sortListAscending(contactsAdapter.contacts.toMutableList()))
+                    true
+                }
+                R.id.sort_descending -> {
+                    viewModel.setContactList(ContactsSorter.sortListDescending(contactsAdapter.contacts.toMutableList()))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun updateContacts(list: List<Contact>) {
-        val contactDiffUtilCallback = ContactsAdapter.ContactDiffUtilCallback(contactsAdapter.contacts, list)
+        val contactDiffUtilCallback =
+            ContactsAdapter.ContactDiffUtilCallback(contactsAdapter.contacts, list)
         val diffResult = DiffUtil.calculateDiff(contactDiffUtilCallback)
 
         contactsAdapter.contacts = list

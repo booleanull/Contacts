@@ -7,7 +7,7 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, ViewModelFactoryModule::class])
 interface AppComponent {
 
     fun provideContext(): Context
