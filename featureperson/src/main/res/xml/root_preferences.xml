@@ -1,0 +1,35 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory>
+
+        <Preference
+            android:key="email"
+            android:summary="EMAIL" />
+
+        <Preference
+            android:key="username"
+            android:summary="USERNAME" />
+
+        <Preference
+            android:key="phone"
+            android:summary="PHONE" />
+
+        <Preference
+            android:key="address"
+            android:summary="ADDRESS" />
+
+        <Preference
+            android:key="website"
+            android:summary="WEBSITE" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <Preference
+            android:key="company"
+            android:summary="COMPANY" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

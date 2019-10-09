@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DaggerActivityComponent.builder()
+        DaggerActivityComponent
+            .builder()
             .appComponent(AppInjectHelper.provideAppComponent(applicationContext))
             .build()
             .inject(this)

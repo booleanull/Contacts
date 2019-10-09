@@ -3,6 +3,8 @@ package com.booleanull.featurecontacts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.booleanull.core.data.Address
+import com.booleanull.core.data.Company
 import com.booleanull.core.data.Contact
 import javax.inject.Inject
 
@@ -13,7 +15,7 @@ class ContactsViewModel @Inject constructor() : ViewModel() {
     init {
         setContactList(
             listOf(
-                Contact(0, "ds0000000a", "dsa", "dsa", null, "dsa", "dsada", null),
+                Contact(0, "Leanne Graham", "Bret", "Sincere@april.biz", Address("Kulas Light", "Apt. 556", "Gwenborough", "92998-3874", null), "1-770-736-8031 x56442", "hildegard.org", Company("Romaguera-Crona", "Multi-layered client-server neural-net", "harness real-time e-markets")),
                 Contact(1, "1dsa", "dsa", "dsa", null, "dsa", "dsada", null),
                 Contact(2, "2dsa", "dsa", "dsa", null, "dsa", "dsada", null),
                 Contact(3, "3dsa", "dsa", "dsa", null, "dsa", "dsada", null),

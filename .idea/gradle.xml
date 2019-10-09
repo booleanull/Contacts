@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/corenetwork" />
             <option value="$PROJECT_DIR$/featurecontacts" />
             <option value="$PROJECT_DIR$/featureperson" />
           </set>

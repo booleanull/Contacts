@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#002984</color>
     <color name="colorAccent">#008577</color>
     <color name="colorGray">#DDDDDD</color>
-
-    <dimen name="padding_small">8dp</dimen>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
